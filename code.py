@@ -34,6 +34,7 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.model_selection import train_test_split
 from wordcloud import WordCloud,STOPWORDS
 import warnings
+from sklearn.metrics import classification_report
 warnings.filterwarnings("ignore")
 
 from google.colab import files
@@ -52,17 +53,17 @@ import warnings
 if not sys.warnoptions:
     warnings.simplefilter("ignore")
 
-def cleanHtml(sentence):
-    cleanr = re.compile('<.*?>')
-    cleantext = re.sub(cleanr, ' ', str(sentence))
-    return cleantext
+#def cleanHtml(sentence):
+    #cleanr = re.compile('<.*?>')
+    #cleantext = re.sub(cleanr, ' ', str(sentence))
+    #return cleantext
 
-def cleanPunc(sentence): #function to clean the word of any punctuation or special characters
-    cleaned = re.sub(r'[?|!|\'|"|#]',r'',sentence)
-    cleaned = re.sub(r'[.|,|)|(|\|/]',r' ',cleaned)
-    cleaned = cleaned.strip()
-    cleaned = cleaned.replace("\n"," ")
-    return cleaned
+#def cleanPunc(sentence): #function to clean the word of any punctuation or special characters
+ #   cleaned = re.sub(r'[?|!|\'|"|#]',r'',sentence)
+ #   cleaned = re.sub(r'[.|,|)|(|\|/]',r' ',cleaned)
+ #   cleaned = cleaned.strip()
+ #   cleaned = cleaned.replace("\n"," ")
+ #   return cleaned
 
 def keepAlpha(sentence):
     alpha_sent = ""
@@ -74,13 +75,17 @@ def keepAlpha(sentence):
     return alpha_sent
 
 train_df['Message'] = train_df['Message'].str.lower()
-train_df['Message'] = train_df['Message'].apply(cleanHtml)
-train_df['Message'] = train_df['Message'].apply(cleanPunc)
+#train_df['Message'] = train_df['Message'].apply(cleanHtml)
+#train_df['Message'] = train_df['Message'].apply(cleanPunc)
 train_df['Message'] = train_df['Message'].apply(keepAlpha)
 
-nltk.download('stopwords')
-stop_words = set(stopwords.words('english'))
-stop_words.update(['zero','one','two','three','four','five','six','seven','eight','nine','ten','may','also','across','among','beside','however','yet','within'])
+#nltk.download('stopwords')
+#stop_words = set(stopwords.words('english'))
+stop_words = set(['between', 'but', 'again', 'there', 'about', 'once', 'during', 'out', 'very', 'having', 'with', 'own', 'an', 'be', 'some', 'for', 'do', 'its', 'such', 'into', 'of', 'most', 'itself', 'other', 'off',  's',  'or',  'as', 'from',  'each', 'the', 'until', 'below', 'these', 'through', 'don', 'nor',  'more', 'this', 'down', 'should',  'while', 'above', 'both', 'up', 'to',  'had', 'all', 'no', 'at',  'before',  'same', 'and', 'been', 'have', 'in', 'will', 'on',  'then', 'that', 'over',  'so', 'can', 'did', 'not', 'now', 'under', 'has', 'just', 'too', 'only', 'those',  'after', 'few',  't', 'being', 'if',  'against', 'a', 'by', 'doing', 'it', 'how', 'further', 'was', 'here', 'than'])
+#person: I/me or she/her
+#interrogative sentence
+
+stop_words.update(['zero','one','two','three','four','five','six','seven','eight','nine','ten','may','also','across','among','beside','within'])
 re_stop_words = re.compile(r"\b(" + "|".join(stop_words) + ")\\W", re.I)
 def removeStopWords(sentence):
     global re_stop_words
@@ -100,22 +105,17 @@ def stemming(sentence):
 
 train_df['Message'] = train_df['Message'].apply(stemming)
 
-stopwords= set(['br', 'the', 'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've",\
-            "you'll", "you'd", 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', \
-            'she', "she's", 'her', 'hers', 'herself', 'it', "it's", 'its', 'itself', 'they', 'them', 'their',\
-            'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', "that'll", 'these', 'those', \
-            'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', \
-            'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', \
+stopwords= set(['br', 'the',\
+             'it', 'its', 'itself', \
+             'this', 'that','these', 'those', \
+            'be', 'been', 'being', 'had', 'having', \
+            'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'as', 'until', 'while', 'of', \
             'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after',\
             'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further',\
-            'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more',\
-            'most', 'other', 'some', 'such', 'only', 'own', 'same', 'so', 'than', 'too', 'very', \
-            's', 't', 'can', 'will', 'just', 'don', "don't", 'should', "should've", 'now', 'd', 'll', 'm', 'o', 're', \
-            've', 'y', 'ain', 'aren', "aren't", 'couldn', "couldn't", 'didn', "didn't", 'doesn', "doesn't", 'hadn',\
-            "hadn't", 'hasn', "hasn't", 'haven', "haven't", 'isn', "isn't", 'ma', 'mightn', "mightn't", 'mustn',\
-            "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't", 'wasn', "wasn't", 'weren', "weren't", \
-            'won', "won't", 'wouldn', "wouldn't"])
-
+            'then', 'once', 'here', 'there', 'all','both', 'each', 'few', 'more',\
+            'most', 'other', 'such', 'only', 'own', 'same', 'so', 'than', 'very', \
+            's', 't', 'will', 'just','now', 'd', 'o', \
+            've', 'y'])
 import re
 def decontracted(phrase):
 # specific
@@ -147,8 +147,6 @@ for sentence in tqdm(train_df['Message'].values):
     sentence = ' '.join(e.lower() for e in sentence.split() if e.lower() not in stopwords)
     preprocessed_comments.append(sentence.strip())
 
-train_df.to_csv('cleaned.csv') 
-files.download('cleaned.csv')
 
 count_vect = CountVectorizer() 
 count_vect.fit(preprocessed_comments)
@@ -162,8 +160,10 @@ tf_idf_vect.fit(preprocessed_comments)
 final_tf_idf = tf_idf_vect.transform(preprocessed_comments)
 
 text_col = ['Message']
-drop_col = ['id', 'clean','count_sent', 'count_word', 'count_unique_word', 'word_unique_percent']
-label_col = [col for col in train_df.columns if col not in text_col + drop_col]
+#drop_col = ['id', 'clean','count_sent', 'count_word', 'count_unique_word', 'word_unique_percent']
+#label_col = [col for col in train_df.columns if col not in text_col + drop_col]
+label_col = [col for col in train_df.columns if col not in text_col]
+#print(label_col)
 final_tf_idf = tf_idf_vect.transform(preprocessed_comments)
 
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -178,12 +178,11 @@ X_val = tf_idf_vect.transform(X_val['Message'])
 X_test = tf_idf_vect.transform(X_test['Message'])
 feature_names = tf_idf_vect.get_feature_names()
 
-print(X_train.shape, y_train.shape, X_val.shape, y_val.shape)
+#print(X_train.shape, y_train.shape, X_val.shape, y_val.shape)
 
 from google.colab import files
 uploaded = files.upload()
 sub_df_mnb =pd.read_csv('sample_submission.csv',error_bad_lines=False, engine="python")
-
 
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import log_loss, roc_auc_score
@@ -191,7 +190,6 @@ model = MultinomialNB(alpha = 0.1)
 
 train_rocs = []
 valid_rocs = []
-
 preds_train = np.zeros(y_train.shape)
 preds_valid = np.zeros(y_val.shape)
 preds_test = np.zeros((len(test_df), len(label_col)))
@@ -200,15 +198,17 @@ for i, label_name in enumerate(label_col):
     print('\nClass:= '+label_name)
     # fit
     model.fit(X_train,y_train[label_name])
-    
     # train
     preds_train[:,i] = model.predict_proba(X_train)[:,1]
+    #y_predict = model.predict(X_train)
     train_roc_class = roc_auc_score(y_train[label_name],preds_train[:,i])
     print('Train ROC AUC:', train_roc_class)
+    #print(classification_report(y_val,y_predict))
     train_rocs.append(train_roc_class)
 
     # valid
     preds_valid[:,i] = model.predict_proba(X_val)[:,1]
+    #y_val_predict = model.predict(X_val)
     valid_roc_class = roc_auc_score(y_val[label_name],preds_valid[:,i])
     print('Valid ROC AUC:', valid_roc_class)
     valid_rocs.append(valid_roc_class)
@@ -219,4 +219,7 @@ for i, label_name in enumerate(label_col):
 print('\nmean column-wise ROC AUC on Train data: ', np.mean(train_rocs))
 print('mean column-wise ROC AUC on Val data:', np.mean(valid_rocs))
 
-sub_df_mnb.iloc[:,1:] = preds_test
+#sub_df_mnb.iloc[:,1:] = preds_test
+np.savetxt("result.csv", preds_test, delimiter=",")
+files.download('result.csv')
+
