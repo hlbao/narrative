@@ -143,7 +143,6 @@ for sentence in tqdm(train_df['Message'].values):
     sentence = re.sub("\S*\d\S*", "", sentence).strip()
     sentence = re.sub('[^A-Za-z]+', ' ', sentence)
     sentence = ''.join(''.join(s)[:2] for _, s in itertools.groupby(sentence))
-    # https://gist.github.com/sebleier/554280
     sentence = ' '.join(e.lower() for e in sentence.split() if e.lower() not in stopwords)
     preprocessed_comments.append(sentence.strip())
 
@@ -160,8 +159,6 @@ tf_idf_vect.fit(preprocessed_comments)
 final_tf_idf = tf_idf_vect.transform(preprocessed_comments)
 
 text_col = ['Message']
-#drop_col = ['id', 'clean','count_sent', 'count_word', 'count_unique_word', 'word_unique_percent']
-#label_col = [col for col in train_df.columns if col not in text_col + drop_col]
 label_col = [col for col in train_df.columns if col not in text_col]
 #print(label_col)
 final_tf_idf = tf_idf_vect.transform(preprocessed_comments)
@@ -186,7 +183,10 @@ sub_df_mnb =pd.read_csv('sample_submission.csv',error_bad_lines=False, engine="p
 
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import log_loss, roc_auc_score
-model = MultinomialNB(alpha = 0.1)
+#model = MultinomialNB(alpha = 0.1)
+#model = LogisticRegression(C=12)
+from sklearn.ensemble import RandomForestClassifier
+model = RandomForestClassifier()
 
 train_rocs = []
 valid_rocs = []
@@ -220,6 +220,9 @@ print('\nmean column-wise ROC AUC on Train data: ', np.mean(train_rocs))
 print('mean column-wise ROC AUC on Val data:', np.mean(valid_rocs))
 
 #sub_df_mnb.iloc[:,1:] = preds_test
-np.savetxt("result.csv", preds_test, delimiter=",")
-files.download('result.csv')
-
+#np.savetxt("result_MultinomialNB.csv", preds_test, delimiter=",")
+#files.download('result_MultinomialNB.csv')
+#np.savetxt("result_Logistic_Regression.csv", preds_test, delimiter=",")
+#files.download('result_Logistic_Regression.csv')
+np.savetxt("result_RandomForest.csv", preds_test, delimiter=",")
+files.download('result_RandomForest.csv')
