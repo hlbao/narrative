@@ -1,3 +1,2 @@
 # narrative
-
-Some basic statistics: training set: 859 valid comments. After human-labeling: 437 non-narrative; 422 narrative. 4667 comments are waiting for auto-labeling. 
+This is the GitHub repository for narrative study on social media collaborating with the journalism school, UNC-Chapel Hill
