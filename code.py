@@ -53,17 +53,17 @@ import warnings
 if not sys.warnoptions:
     warnings.simplefilter("ignore")
 
-#def cleanHtml(sentence):
-    #cleanr = re.compile('<.*?>')
-    #cleantext = re.sub(cleanr, ' ', str(sentence))
-    #return cleantext
+def cleanHtml(sentence):
+    cleanr = re.compile('<.*?>')
+    cleantext = re.sub(cleanr, ' ', str(sentence))
+    return cleantext
 
-#def cleanPunc(sentence): #function to clean the word of any punctuation or special characters
- #   cleaned = re.sub(r'[?|!|\'|"|#]',r'',sentence)
- #   cleaned = re.sub(r'[.|,|)|(|\|/]',r' ',cleaned)
- #   cleaned = cleaned.strip()
- #   cleaned = cleaned.replace("\n"," ")
- #   return cleaned
+def cleanPunc(sentence): #function to clean the word of any punctuation or special characters
+    cleaned = re.sub(r'[|!|\'|"|#]',r'',sentence)
+    cleaned = re.sub(r'[.|,|)|(|\|/]',r' ',cleaned)
+    cleaned = cleaned.strip()
+    cleaned = cleaned.replace("\n"," ")
+    return cleaned
 
 def keepAlpha(sentence):
     alpha_sent = ""
@@ -75,17 +75,30 @@ def keepAlpha(sentence):
     return alpha_sent
 
 train_df['Message'] = train_df['Message'].str.lower()
-#train_df['Message'] = train_df['Message'].apply(cleanHtml)
-#train_df['Message'] = train_df['Message'].apply(cleanPunc)
+train_df['Message'] = train_df['Message'].apply(cleanHtml)
+train_df['Message'] = train_df['Message'].apply(cleanPunc)
 train_df['Message'] = train_df['Message'].apply(keepAlpha)
 
 #nltk.download('stopwords')
 #stop_words = set(stopwords.words('english'))
-stop_words = set(['between', 'but', 'again', 'there', 'about', 'once', 'during', 'out', 'very', 'having', 'with', 'own', 'an', 'be', 'some', 'for', 'do', 'its', 'such', 'into', 'of', 'most', 'itself', 'other', 'off',  's',  'or',  'as', 'from',  'each', 'the', 'until', 'below', 'these', 'through', 'don', 'nor',  'more', 'this', 'down', 'should',  'while', 'above', 'both', 'up', 'to',  'had', 'all', 'no', 'at',  'before',  'same', 'and', 'been', 'have', 'in', 'will', 'on',  'then', 'that', 'over',  'so', 'can', 'did', 'not', 'now', 'under', 'has', 'just', 'too', 'only', 'those',  'after', 'few',  't', 'being', 'if',  'against', 'a', 'by', 'doing', 'it', 'how', 'further', 'was', 'here', 'than'])
+stop_words = {'ever', "don't", 'during', 'nor', 'where', "why's", 'yourself', 'not', 'very', 'against', 'between', 'up', 'over', "aren't", "shouldn't", 'could', 'him', 'the', "they'd", 'after', "haven't", "we're", 'these', 'them', 'cannot', 'once', 'shall', 'own', 'until', 'get', "couldn't", 'who', "that's", 'then', 'for', 'have', "you've", 'he', 'while', 'else', 'be', 'www', 'and', 'any', 'which', 'than', 'because', 'into', 'to', "when's", 'you', 'a', "can't", 'off', 'since', 'under', 'out', 'so', "there's", 'down', 'more', "we'd", "we've", 'again', 'doing', 'only', "they're", 'your', 'yourselves', "you'll", 'like', "they'll", 'it', 'some', 'however', "mustn't", 'of', 'both', 'such', 'his', 'ought', 'can', 'how', "he's", 'should', 'just', 'having', 'itself', 'other', 'yours', "who's", 'r', 'do', 'whom', 'com', "it's", "how's", 'most', 'what', "what's", "wouldn't", 'each', 'been', 'but', 'our', "he'd", "you're", 'has', 'k', 'those', "here's", 'also', 'there', 'themselves', 'is', 'if', 'in', "let's", "won't", 'too', 'theirs', 'himself', 'from', "you'd", 'as', 'they', 'we', 'would', "doesn't", 'all', 'when', 'below', "where's", 'before', 'no', 'about', 'being', "we'll", 'at', "isn't", 'same', 'their', 'above', "he'll", 'here', 'with', 'ourselves', "they've", 'are', "shan't", 'why', 'its', 'on', 'few', 'or', 'by', 'that', 'further', 'through', "hasn't", 'otherwise', 'does', 'this', 'ours', 'an', 'http'}
 #person: I/me or she/her
 #interrogative sentence
 
-stop_words.update(['zero','one','two','three','four','five','six','seven','eight','nine','ten','may','also','across','among','beside','within'])
+stop_words.update(['to', 'the', 'and', 'breast', 'cancer', 'of', 'a', 'in', 'for', 'your', 'you', 'is', 'with', 'we', 'this', 'our', 'on', 'that', 'are', 'by', 'women', 'be', 'about', 'from', 'can', 'or', 'us', 'will', 'have', 'as', 'help', 'who', 'cancer.', 'their', 'all', 'at', 'more', 'day', 'has', 'support', 'it', 'one', 'how', 'so', 'what', 'an', 'make', 'up', 'treatment', '–', 'out', 'people', 'like', 'now', 'been', 'every', 'but', 'some', 'diagnosed', 'cancer,', 'not', 'find', 'when', 'get', 'they', '-', 'would'])
+stop_words.update(['and', 'to', 'the', 'a', 'of', 'breast', 'cancer', 'with', 'in', 'for', 'that', 'is', 'it', 'on', 'have', 'you', 'this', 'diagnosed', 'our', 'but', 'at', 'we', 'about', 'as', 'be', 'so', 'are', 'your', 'like', 'cancer.', 'has', 'when', 'from', 'not', 'all', 'by', 'who', 'been', 'an', 'more', 'will', 'how', 'day', 'treatment', 'what', 'would', 'can', 'us', 'one', 'support', 'cancer,', 'women', 'find', 'out', '-', 'help', 'their', 'they', '–', 'people', 'now', 'every', 'get', 'or', 'up', 'some', 'make'])
+stop_words.update(['life', 'bit', 'people', 'women', 'https', 'org', 'treatment', 'help', 'support', 'breast', 'cancer'])
+
+set1 = ['new', 'research', 'pink', 'share', 'those', 'run', 'could', 'if', 'want', 'awareness', 'tell', 'today', 'metastatic', 'know', 'early', 'over', 'canadian', 'it’s', 'live', 'nurse', 'affected', 'survivors', 'join', 'sign', 'register', 'which', 'may', 'chance', 'many', 'comments', 'why', 'learn', 'need']
+for i in range(len(set1)):
+  if((set1[i] in stop_words) == True):
+    stop_words.remove(set1[i])
+
+set2= ['i', 'was', 'my', 'her', 'she', 'had', 'after', 'me', 'through', 'years', 'just', 'am', 'life', 'no', 'were', 'family', 'time', 'during', 'going', 'felt', 'go', 'there', 'tips', 'being', 'hope', 'told', 'other', 'first', 'i’m', 'didn’t', 'only', 'found', 'chemo']
+for i in range(len(set2)):
+  if((set2[i] in stop_words) == True):
+    stop_words.remove(set2[i])
+
 re_stop_words = re.compile(r"\b(" + "|".join(stop_words) + ")\\W", re.I)
 def removeStopWords(sentence):
     global re_stop_words
@@ -105,17 +118,8 @@ def stemming(sentence):
 
 train_df['Message'] = train_df['Message'].apply(stemming)
 
-stopwords= set(['br', 'the',\
-             'it', 'its', 'itself', \
-             'this', 'that','these', 'those', \
-            'be', 'been', 'being', 'had', 'having', \
-            'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'as', 'until', 'while', 'of', \
-            'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after',\
-            'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further',\
-            'then', 'once', 'here', 'there', 'all','both', 'each', 'few', 'more',\
-            'most', 'other', 'such', 'only', 'own', 'same', 'so', 'than', 'very', \
-            's', 't', 'will', 'just','now', 'd', 'o', \
-            've', 'y'])
+stopwords= stop_words
+
 import re
 def decontracted(phrase):
 # specific
@@ -146,7 +150,6 @@ for sentence in tqdm(train_df['Message'].values):
     sentence = ' '.join(e.lower() for e in sentence.split() if e.lower() not in stopwords)
     preprocessed_comments.append(sentence.strip())
 
-
 count_vect = CountVectorizer() 
 count_vect.fit(preprocessed_comments)
 final_counts = count_vect.transform(preprocessed_comments)
@@ -176,10 +179,6 @@ X_test = tf_idf_vect.transform(X_test['Message'])
 feature_names = tf_idf_vect.get_feature_names()
 
 #print(X_train.shape, y_train.shape, X_val.shape, y_val.shape)
-
-from google.colab import files
-uploaded = files.upload()
-sub_df_mnb =pd.read_csv('sample_submission.csv',error_bad_lines=False, engine="python")
 
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import log_loss, roc_auc_score
