@@ -66,9 +66,12 @@ plt.imshow(cloud_toxic)
 sum =''
 for i in range(len(text)):
   sum  = sum+ text[i]
+sum=sum.lower()
+
 filtered_words=[]
 for word in sum.split():
   filtered_words.append(word)
+  
 
 counted_words = collections.Counter(filtered_words)
 
@@ -95,6 +98,8 @@ plt.imshow(cloud_toxic)
 sum =''
 for i in range(len(text)):
   sum  = sum+ text[i]
+
+sum=sum.lower()
 
 filtered_words=[]
 for word in sum.split():
