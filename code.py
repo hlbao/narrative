@@ -59,7 +59,7 @@ def cleanHtml(sentence):
     return cleantext
 
 def cleanPunc(sentence): #function to clean the word of any punctuation or special characters
-    cleaned = re.sub(r'[|!|\'|"|#]',r'',sentence)
+    cleaned = re.sub(r'[\'|"|#]',r'',sentence)
     cleaned = re.sub(r'[.|,|)|(|\|/]',r' ',cleaned)
     cleaned = cleaned.strip()
     cleaned = cleaned.replace("\n"," ")
@@ -81,7 +81,7 @@ train_df['Message'] = train_df['Message'].apply(keepAlpha)
 
 #nltk.download('stopwords')
 #stop_words = set(stopwords.words('english'))
-stop_words = {'ever', "don't", 'during', 'nor', 'where', "why's", 'yourself', 'not', 'very', 'against', 'between', 'up', 'over', "aren't", "shouldn't", 'could', 'him', 'the', "they'd", 'after', "haven't", "we're", 'these', 'them', 'cannot', 'once', 'shall', 'own', 'until', 'get', "couldn't", 'who', "that's", 'then', 'for', 'have', "you've", 'he', 'while', 'else', 'be', 'www', 'and', 'any', 'which', 'than', 'because', 'into', 'to', "when's", 'you', 'a', "can't", 'off', 'since', 'under', 'out', 'so', "there's", 'down', 'more', "we'd", "we've", 'again', 'doing', 'only', "they're", 'your', 'yourselves', "you'll", 'like', "they'll", 'it', 'some', 'however', "mustn't", 'of', 'both', 'such', 'his', 'ought', 'can', 'how', "he's", 'should', 'just', 'having', 'itself', 'other', 'yours', "who's", 'r', 'do', 'whom', 'com', "it's", "how's", 'most', 'what', "what's", "wouldn't", 'each', 'been', 'but', 'our', "he'd", "you're", 'has', 'k', 'those', "here's", 'also', 'there', 'themselves', 'is', 'if', 'in', "let's", "won't", 'too', 'theirs', 'himself', 'from', "you'd", 'as', 'they', 'we', 'would', "doesn't", 'all', 'when', 'below', "where's", 'before', 'no', 'about', 'being', "we'll", 'at', "isn't", 'same', 'their', 'above', "he'll", 'here', 'with', 'ourselves', "they've", 'are', "shan't", 'why', 'its', 'on', 'few', 'or', 'by', 'that', 'further', 'through', "hasn't", 'otherwise', 'does', 'this', 'ours', 'an', 'http'}
+stop_words = {'ever', "don't", 'during', 'nor', 'where', "why's", 'yourself', 'not', 'very', 'against', 'between', 'up', 'over', "aren't", "shouldn't", 'could', 'him', 'the', "they'd", 'after', "haven't", "we're", 'these', 'them', 'cannot', 'once', 'shall', 'own', 'until', 'get', "couldn't", 'who', "that's", 'then', 'for', 'have', "you've", 'he', 'while', 'else', 'be', 'www', 'and', 'any', 'which', 'than', 'because', 'into', 'to', "when's", 'you', 'a', "can't", 'off', 'since', 'under', 'out', 'so', "there's", 'down', 'more', "we'd", "we've", 'again', 'doing', 'only', "they're", 'your', 'yourselves', "you'll", 'like', "they'll", 'it', 'some', 'however', "mustn't", 'of', 'both', 'such', 'his', 'ought', 'can', 'how', "he's", 'should', 'just', 'having', 'itself', 'other', 'yours', "who's", 'r', 'do', 'whom', 'com', "it's", "how's", 'most', 'what', "what's", "wouldn't", 'each', 'been', 'but', 'our', "he'd", "you're", 'has', 'k', 'those', "here's", 'also', 'there', 'themselves', 'is', 'if', 'in', "won't", 'too', 'theirs', 'himself', 'from', "you'd", 'as', 'they', 'we', 'would', "doesn't", 'all', 'when', 'below', "where's", 'before', 'no', 'about', 'being', "we'll", 'at', "isn't", 'same', 'their', 'above', "he'll", 'here', 'with', 'ourselves', "they've", 'are', "shan't", 'why', 'its', 'on', 'few', 'or', 'by', 'that', 'further', 'through', "hasn't", 'otherwise', 'does', 'this', 'ours', 'an', 'http'}
 #person: I/me or she/her
 #interrogative sentence
 
