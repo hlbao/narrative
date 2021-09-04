@@ -59,7 +59,7 @@ def cleanHtml(sentence):
     return cleantext
 
 def cleanPunc(sentence): #function to clean the word of any punctuation or special characters
-    cleaned = re.sub(r'[\'|"|#]',r'',sentence)
+    cleaned = re.sub(r'[\'|#]',r'',sentence)
     cleaned = re.sub(r'[.|,|)|(|\|/]',r' ',cleaned)
     cleaned = cleaned.strip()
     cleaned = cleaned.replace("\n"," ")
@@ -172,7 +172,7 @@ import scipy
 #split
 features = text_col
 X_test = test_df[features].copy()
-X_train, X_val, y_train, y_val = train_test_split(train_df[features], train_df[label_col], test_size=0.2, random_state=2021)
+X_train, X_val, y_train, y_val = train_test_split(train_df[features], train_df[label_col], test_size=0.3, random_state=2021)
 X_train = tf_idf_vect.transform(X_train['Message'])
 X_val = tf_idf_vect.transform(X_val['Message'])
 X_test = tf_idf_vect.transform(X_test['Message'])
@@ -183,9 +183,9 @@ feature_names = tf_idf_vect.get_feature_names()
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import log_loss, roc_auc_score
 #model = MultinomialNB(alpha = 0.1)
-#model = LogisticRegression(C=12)
-from sklearn.ensemble import RandomForestClassifier
-model = RandomForestClassifier()
+model = LogisticRegression(C=10)
+#from sklearn.ensemble import RandomForestClassifier
+#model = RandomForestClassifier()
 
 train_rocs = []
 valid_rocs = []
@@ -223,5 +223,7 @@ print('mean column-wise ROC AUC on Val data:', np.mean(valid_rocs))
 #files.download('result_MultinomialNB.csv')
 #np.savetxt("result_Logistic_Regression.csv", preds_test, delimiter=",")
 #files.download('result_Logistic_Regression.csv')
-np.savetxt("result_RandomForest.csv", preds_test, delimiter=",")
-files.download('result_RandomForest.csv')
+#np.savetxt("result_RandomForest.csv", preds_test, delimiter=",")
+#files.download('result_RandomForest.csv')
+np.savetxt("result_DL.csv", preds_test, delimiter=",")
+files.download('result_DL.csv')
