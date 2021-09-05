@@ -81,9 +81,12 @@ train_df['Message'] = train_df['Message'].apply(keepAlpha)
 
 #nltk.download('stopwords')
 #stop_words = set(stopwords.words('english'))
-stop_words = {'ever', "don't", 'during', 'nor', 'where', "why's", 'yourself', 'not', 'very', 'against', 'between', 'up', 'over', "aren't", "shouldn't", 'could', 'him', 'the', "they'd", 'after', "haven't", "we're", 'these', 'them', 'cannot', 'once', 'shall', 'own', 'until', 'get', "couldn't", 'who', "that's", 'then', 'for', 'have', "you've", 'he', 'while', 'else', 'be', 'www', 'and', 'any', 'which', 'than', 'because', 'into', 'to', "when's", 'you', 'a', "can't", 'off', 'since', 'under', 'out', 'so', "there's", 'down', 'more', "we'd", "we've", 'again', 'doing', 'only', "they're", 'your', 'yourselves', "you'll", 'like', "they'll", 'it', 'some', 'however', "mustn't", 'of', 'both', 'such', 'his', 'ought', 'can', 'how', "he's", 'should', 'just', 'having', 'itself', 'other', 'yours', "who's", 'r', 'do', 'whom', 'com', "it's", "how's", 'most', 'what', "what's", "wouldn't", 'each', 'been', 'but', 'our', "he'd", "you're", 'has', 'k', 'those', "here's", 'also', 'there', 'themselves', 'is', 'if', 'in', "won't", 'too', 'theirs', 'himself', 'from', "you'd", 'as', 'they', 'we', 'would', "doesn't", 'all', 'when', 'below', "where's", 'before', 'no', 'about', 'being', "we'll", 'at', "isn't", 'same', 'their', 'above', "he'll", 'here', 'with', 'ourselves', "they've", 'are', "shan't", 'why', 'its', 'on', 'few', 'or', 'by', 'that', 'further', 'through', "hasn't", 'otherwise', 'does', 'this', 'ours', 'an', 'http'}
+stop_words = {'ever', "don't", 'during', 'nor', 'where', "why's", 'yourself', 'not', 'very', 'against', 'between', 'up', 'over', "aren't", "shouldn't", 'could', 'the', "they'd", 'after', "haven't", "we're", 'these', 'them', 'cannot', 'once', 'shall', 'own', 'until', 'get', "couldn't", 'who', "that's", 'then', 'for', 'have', "you've", 'while', 'else', 'be', 'www', 'and', 'any', 'which', 'than', 'because', 'into', 'to', "when's", 'you', 'a', "can't", 'off', 'since', 'under', 'out', 'so', "there's", 'down', 'more', "we'd", "we've", 'again', 'only', "they're", 'your', 'yourselves', "you'll", 'like', "they'll", 'it', 'some', 'however', "mustn't", 'of', 'both', 'such', 'ought', 'can', 'how', 'should', 'just', 'having', 'itself', 'other', 'yours', "who's", 'r', 'do', 'whom', 'com', "it's", "how's", 'most', 'what', "what's", "wouldn't", 'each', 'been', 'but', 'our', "you're", 'has', 'k', 'those', "here's", 'also', 'there', 'themselves', 'is', 'if', 'in', "won't", 'too', 'theirs', 'from', "you'd", 'as', 'they', 'we', 'would', "doesn't", 'all', 'when', 'below', "where's", 'before', 'no', 'about', 'being', "we'll", 'at', "isn't", 'same', 'their', 'above', 'here', 'with', 'ourselves', "they've", 'are', "shan't", 'why', 'its', 'on', 'few', 'or', 'by', 'that', 'further', 'through', "hasn't", 'otherwise', 'does', 'this', 'ours', 'an', 'http'}
 #person: I/me or she/her
 #interrogative sentence
+
+#been 
+#his him
 
 stop_words.update(['to', 'the', 'and', 'breast', 'cancer', 'of', 'a', 'in', 'for', 'your', 'you', 'is', 'with', 'we', 'this', 'our', 'on', 'that', 'are', 'by', 'women', 'be', 'about', 'from', 'can', 'or', 'us', 'will', 'have', 'as', 'help', 'who', 'cancer.', 'their', 'all', 'at', 'more', 'day', 'has', 'support', 'it', 'one', 'how', 'so', 'what', 'an', 'make', 'up', 'treatment', '–', 'out', 'people', 'like', 'now', 'been', 'every', 'but', 'some', 'diagnosed', 'cancer,', 'not', 'find', 'when', 'get', 'they', '-', 'would'])
 stop_words.update(['and', 'to', 'the', 'a', 'of', 'breast', 'cancer', 'with', 'in', 'for', 'that', 'is', 'it', 'on', 'have', 'you', 'this', 'diagnosed', 'our', 'but', 'at', 'we', 'about', 'as', 'be', 'so', 'are', 'your', 'like', 'cancer.', 'has', 'when', 'from', 'not', 'all', 'by', 'who', 'been', 'an', 'more', 'will', 'how', 'day', 'treatment', 'what', 'would', 'can', 'us', 'one', 'support', 'cancer,', 'women', 'find', 'out', '-', 'help', 'their', 'they', '–', 'people', 'now', 'every', 'get', 'or', 'up', 'some', 'make'])
@@ -172,7 +175,7 @@ import scipy
 #split
 features = text_col
 X_test = test_df[features].copy()
-X_train, X_val, y_train, y_val = train_test_split(train_df[features], train_df[label_col], test_size=0.3, random_state=2021)
+X_train, X_val, y_train, y_val = train_test_split(train_df[features], train_df[label_col], test_size=0.2, random_state=2021)
 X_train = tf_idf_vect.transform(X_train['Message'])
 X_val = tf_idf_vect.transform(X_val['Message'])
 X_test = tf_idf_vect.transform(X_test['Message'])
@@ -183,7 +186,7 @@ feature_names = tf_idf_vect.get_feature_names()
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import log_loss, roc_auc_score
 #model = MultinomialNB(alpha = 0.1)
-model = LogisticRegression(C=10)
+model = LogisticRegression(C=12)
 #from sklearn.ensemble import RandomForestClassifier
 #model = RandomForestClassifier()
 
@@ -227,3 +230,4 @@ print('mean column-wise ROC AUC on Val data:', np.mean(valid_rocs))
 #files.download('result_RandomForest.csv')
 np.savetxt("result_DL.csv", preds_test, delimiter=",")
 files.download('result_DL.csv')
+
