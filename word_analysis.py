@@ -72,7 +72,6 @@ filtered_words=[]
 for word in sum.split():
   filtered_words.append(word)
   
-
 counted_words = collections.Counter(filtered_words)
 
 words1 = []
