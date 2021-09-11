@@ -1,5 +1,0 @@
-https://github.com/iamsouravbanerjee/Toxic-Comment-Classification-Challenge/blob/master/Toxic%20Comment%20Classification%20Challenge.ipynb
-
-https://jayspeidell.github.io/portfolio/project05-toxic-comments/
-
-https://www.kaggle.com/thundo/toxic-comments-feature-engineering
