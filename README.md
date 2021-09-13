@@ -3,4 +3,4 @@ This is the GitHub repository for the narrative detector on social media. I desi
 
 The release of the complete source code and the large-scale Facebook post/comment textual data set that I used is subject to the permission of my collaborators.
 
-Honglin Bao, September 2022 baohlcs@gmail.com
+Honglin Bao, September 2021 baohlcs@gmail.com
